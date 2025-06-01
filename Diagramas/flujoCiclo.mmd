@@ -1,0 +1,16 @@
+flowchart TD
+    Start(("Inicio / Reset"))
+    Fetch["Fetch: PC → MAR, Mem[MAR] → MBR, MBR → IR, PC = PC + 1"]
+    Decode["Decode: UC decodifica IR, extrae OPCODE y MODE, genera señales de control"]
+    Execute["Execute: ALU opera; LOAD/STORE accede memoria; JMP/CALL modifica PC; CMP actualiza flags"]
+    Writeback["Writeback: Guarda resultado en registro o memoria"]
+    CheckHLT{"¿Instrucción = HLT?"}
+    End(("Fin"))
+
+    Start --> Fetch
+    Fetch --> Decode
+    Decode --> Execute
+    Execute --> Writeback
+    Writeback --> CheckHLT
+    CheckHLT -- Sí --> End
+    CheckHLT -- No --> Fetch

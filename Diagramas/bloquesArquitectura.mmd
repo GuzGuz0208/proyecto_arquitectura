@@ -1,0 +1,32 @@
+graph TD
+    PC["Program Counter (PC)"]
+    MAR["Memory Address Register (MAR)"]
+    MEM["Main Memory"]
+    MBR["Memory Buffer Register (MBR)"]
+    IR["Instruction Register (IR)"]
+    UC["Control Unit (UC)"]
+    ALU["Arithmetic Logic Unit (ALU)"]
+    REG["General Purpose Registers"]
+    PSW["Program Status Word (PSW)"]
+    IO["Input/Output Devices"]
+    ADDR_BUS["Address Bus"]
+    DATA_BUS["Data Bus"]
+    CTRL_BUS["Control Bus"]
+
+    PC --> MAR
+    MAR -->|Address| MEM
+    MEM -->|Data| MBR
+    MBR --> IR
+    IR --> UC
+    UC --> ALU
+    UC --> REG
+    ALU <--> REG
+    MEM <--> ADDR_BUS
+    MEM <--> DATA_BUS
+    IO <--> DATA_BUS
+    IO <--> CTRL_BUS
+    ADDR_BUS <--> MAR
+    DATA_BUS <--> MBR
+    CTRL_BUS --> UC
+    PSW --> UC
+    REG --> ALU

@@ -1,0 +1,112 @@
+classDiagram
+class ALU {
+  +__init__() : None
+  +execute(opcode, operand1, operand2) : None
+  +get_psw() : None
+}
+class ComputerSimulator {
+  +__init__(root) : None
+  +create_widgets() : None
+  +create_layout() : None
+  +create_control_signals_display() : None
+  +reset() : None
+  +load_instructions() : None
+  +load_single_instructions() : None
+  +fetch_cycle() : None
+  +execute_cycle(opcode, reg1, reg2, operand1, operand2, control_signals) : None
+  +reset_data_travel() : None
+  +highlight_data_travel() : None
+  +highlight_output_travel() : None
+  +execute_all_instructions() : None
+  +execute_single_instruction() : None
+}
+class ControlUnit {
+  +__init__() : None
+  +fetch(memory, pc) : None
+  +decode() : None
+}
+class CPU {
+  +__init__(canvas) : None
+  +reset() : None
+  +update_psw_display() : None
+}
+class InputOutput {
+  +__init__(output_widget, register_bank, memory_interface) : None
+  +process_instruction(instruction) : None
+  +_handle_number(number) : None
+  +_handle_register(register) : None
+  +_handle_memory_address(address) : None
+  +_handle_invalid(argument) : None
+  +_update_output(message, clear) : None
+}
+class InterfazBus {
+  +__init__(canvas, cpu_height) : None
+  +on_configure(event) : None
+  +inicializar_buses() : None
+  +dibujar() : None
+  +draw_vertical_label(text, x, y, color) : None
+  +draw_bus_status(estado, x, y, color) : None
+  +crear_conexion_memoria_datos(start, end, color, width) : None
+  +crear_conexion_i_o(start, end, color, width) : None
+  +crear_conexion_memoria_programa(start, end, color, width) : None
+  +actualizar_color_linea(bus_name, new_color) : None
+  +highlight_bus(bus_name, color) : None
+  +reset_bus_color(bus_name) : None
+  +activar_componente(bus_name, componente) : None
+  +activar_bus_datos_conexion_io() : None
+  +restaurar_color(line) : None
+  +activar_bus_direcciones() : None
+  +activar_bus_control() : None
+  +activar_bus_datos() : None
+  +desactivar_bus_direcciones() : None
+  +desactivar_bus_control() : None
+  +desactivar_bus_datos() : None
+}
+class InterfazIO {
+  +__init__(parent, cpu_main) : None
+  +execute_output() : None
+  +load_file() : None
+  +save_file() : None
+}
+class InterfazMemoria {
+  +__init__(parent) : None
+  +crear_matriz_dinamica(canvas, matriz, canvas_index) : None
+  +actualizar_celda(canvas_index, row, col, texto) : None
+  +cargar_instruccion(instruccion) : None
+  +actualizar_celda(canvas_index, row, col, texto) : None
+  +store_data(address, value) : None
+  +load_data(address) : None
+  +store_instruction(address, value) : None
+  +load_instruction(address) : None
+}
+class MainMemory {
+  +__init__(canvas) : None
+  +update_memory_display(instructions) : None
+  +reset() : None
+}
+class Memory {
+  +__init__(canvas, x, y, size) : None
+  +load_instruction(address) : None
+  +store_instruction(address, value) : None
+  +load_data(address) : None
+  +store_data(address, value) : None
+  +clear_registers() : None
+}
+class Register {
+  +__init__(canvas, x, y, name) : None
+  +set_value(value) : None
+}
+class RegisterBank {
+  +__init__(canvas, x, y) : None
+  +get(reg_name) : None
+  +set(reg_name, value) : None
+  +clear_registers() : None
+}
+class WiredControlUnit {
+  +__init__(main_canvas) : None
+  +initialize_internal_canvas() : None
+  +fetch(memory, pc) : None
+  +decode() : None
+  +generate_control_signals(opcode) : None
+  +update_control_signals_display() : None
+}
