@@ -142,7 +142,6 @@ class ComputerSimulator:
         self.system_buses.activar_bus_direcciones()
         self.root.after(500, self.system_buses.desactivar_bus_direcciones)
         self.root.after(500, self.execute_cycle, opcode, reg1, reg2, operand1, operand2, control_signals)
-
     def execute_cycle(self, opcode, reg1, reg2, operand1, operand2, control_signals):
         self.reset_data_travel()
         if control_signals['alu_operation']:
@@ -187,7 +186,7 @@ class ComputerSimulator:
             self.input_output.process_instruction(f"SHOW {reg1}")
         self.root.update()
         self.cpu.wired_control_unit.update_control_signals_display()
-
+        print(f"[DEBUG] Decoded as: opcode={opcode}, reg1={reg1}, reg2={reg2}, operand1={operand1}, operand2={operand2}")
     def reset_data_travel(self):
         self.root.after(500, self.system_buses.desactivar_bus_control)
         self.root.after(1000, self.system_buses.desactivar_bus_datos)
