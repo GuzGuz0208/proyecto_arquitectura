@@ -4,7 +4,7 @@ class ALU {
   psw: dict[str,int]
   ALU()
   +ejecutar_operacion(opcode, operando1, operando2) : None
-  +obtener_flags() dict[str,int]
+  +obtener_flags(): dict[str,int]
 }
 class SimuladorComputador {
   - root: Tk
@@ -58,8 +58,8 @@ class CPU {
   +actualizar_visualizacion_psw() : None
 }
 class EntradasSalidas {
-  -widget_salida: tk.text
-  -banco_registro: BancoRegistros
+  -widget_salida: text
+  -banco_registro: bancoRegistro
   -interfaz_memoria: InterfazMemoria
   EntradasSalidas(widget_salida, banco_registro, interfaz_memoria)
   +procesar_instruccion(instruction:str) : None
@@ -103,7 +103,6 @@ class InterfazMemoria {
   +crear_matriz_dinamica(canvas, matriz, canvas_index) : None
   +actualizar_celda(canvas_index, row, col, texto) : None
   +cargar_instruccion(instruccion) : None
-  +actualizar_celda(canvas_index, row, col, texto) : None
   +store_data(address, value) : None
   +cargardata(address) : None
   +store_instruction(address, value) : None
@@ -134,9 +133,9 @@ class Registro {
   Registro(canvas:Canvas, x:int, y:int, nombre:str)
   +set_valor(valor:int) : None
 }
-class BancoRegistros {
+class bancoRegistro {
   -registros: dict[str, Registro]
-  BancoRegistros(canvas, x, y)
+  bancoRegistro(canvas, x, y)
   +get_nombre_registro(registro_nombre: str) : None
   +set_nombre_registro(registro_nombre:str, valor:int) : None
   +limpiar_registro() : None
@@ -163,13 +162,11 @@ InterfazMemoria <-- SimuladorComputador
 UnidadControl --> Memoria
 Memoria --> MainMemoria
 Registro -- Memoria
-Registro <-- BancoRegistros
+Registro <-- bancoRegistro
 CPU --> ALU
-CPU --> BancoRegistros
+CPU --> bancoRegistro
 CPU --> Registro
 CPU --> UnidadControl
-EntradasSalidas --> BancoRegistros
+EntradasSalidas --> bancoRegistro
 EntradasSalidas --> InterfazMemoria
 UnidadControlCableada --> Memoria
-
-

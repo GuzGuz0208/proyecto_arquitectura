@@ -50,3 +50,4 @@ class RegisterBank:
         """
         for register in self.registers.values():
             register.set_value(0)
+    

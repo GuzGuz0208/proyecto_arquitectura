@@ -25,7 +25,6 @@ class InputOutput:
 
         # Extraer el argumento después de 'SHOW'
         argument = instruction[5:].strip()  # Obtén todo después de "SHOW "
-        
         # Verificar si el argumento es un número entero
         if argument.isdigit():
             self._handle_number(int(argument))
@@ -34,6 +33,7 @@ class InputOutput:
         elif argument.startswith("[") and argument.endswith("]") and argument[1:-1].isdigit():
             self._handle_memory_address(int(argument[1:-1]))
         else:
+            print(f"[DEBUG] Argumento inválido: {argument}")
             self._handle_invalid(argument)
 
     def _handle_number(self, number):
@@ -44,8 +44,10 @@ class InputOutput:
         """Maneja el caso donde el argumento es un registro (R1, R2, etc.)."""
         if register in self.register_bank.registers:
             value = self.register_bank.get(register)
+            print(f"[DEBUG] Valor encontrado en {register}: {value}")
             self._update_output(f"Valor del registro {register}: {value}", clear=True)
         else:
+            print(f"[ERROR] Registro {register} no encontrado")
             self._update_output(f"Registro {register} no encontrado.", clear=True)
             self._update_output(f"Registro {register} no encontrado.", clear=True)
 

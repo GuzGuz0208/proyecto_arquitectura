@@ -37,3 +37,4 @@ class CPU:
     def update_psw_display(self):
         psw_text = f"Z: {self.alu.psw['Z']} C: {self.alu.psw['C']} S: {self.alu.psw['S']} O: {self.alu.psw['O']}"
         self.psw_register.set_value(psw_text)
+    

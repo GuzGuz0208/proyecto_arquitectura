@@ -17,9 +17,11 @@ from Class.constantes import *
 class ComputerSimulator:
     def __init__(self, root):
         self.root = root
-        self.root.title("Proyecto Final Arquitectura")
+        self.root.title("Simulación Computador")
         self.root.configure(bg=COLOR_BACKGROUND)
-        self.canvas = Canvas(self.root, width=700, height=500,  highlightthickness=0)
+        self.canvas = Canvas(self.root, highlightthickness=0)
+        #self.canvas.pack(side=tk.RIGHT, expand=True, fill=tk.BOTH)
+
 
         self.cpu = CPU(self.canvas)
         self.system_buses = InterfazBus(self.canvas ,0)
@@ -36,6 +38,9 @@ class ComputerSimulator:
         self.control_signals_text = {}
         self.create_control_signals_display()
         self.cpu.update_psw_display()
+
+        
+
 
     def create_widgets(self):
         # Cambiar colores a llamativos y ajustar tamaños
@@ -71,19 +76,21 @@ class ComputerSimulator:
         instructions = self.text_widget.get("1.0", tk.END).strip().split('\n')
         for idx, instruction in enumerate(instructions):
             if instruction.strip():
+                print(f"[INFO] Instrucción #{idx + 1}: {instruction}")
                 if len(self.instructions) >= self.main_memory.memory.size // 2:
-                    print("There is no space in memory to load more instructions.")
+                    print("[WARN]Memoria llena. No se pueden cargar más instrucciones.")
                     break
 
-                 # Verificar si la instrucción contiene la palabra SHOW
+                """# Verificar si la instrucción contiene la palabra SHOW
                 if "SHOW" in instruction.upper():  
                     print("Instrucción SHOW detectada")
                     print("Instrucción: ", instruction.strip())
                     self.input_output.process_instruction(instruction)  # Procesar instrucción SHOW
                     #self.output()  # Llamar al método de salida
-
+                """    
                 self.main_memory.memory.store_instruction(idx, instruction.strip())
                 self.instructions.append(instruction.strip())
+        print("[INFO] Instrucciones cargadas. Ejecutando programa...")
         self.main_memory.update_memory_display(self.instructions)
         self.memorias.cargar_instruccion(self.instructions)
         self.execute_all_instructions()
@@ -147,7 +154,8 @@ class ComputerSimulator:
         elif opcode == 'JP':
             self.cpu.pc_register.set_value(operand1)
         elif opcode == 'JPZ':
-            if operand2 != 0:
+            if operand2 == 0:
+                print(f"[INFO] JPZ activado: operand2 = {operand2} es cero. Saltando a {operand1}")
                 self.cpu.pc_register.set_value(operand1)
         elif opcode == 'LOAD':
             if reg2.startswith('*'):
@@ -176,6 +184,7 @@ class ComputerSimulator:
             self.cpu.register_bank.set(reg1, self.cpu.register_bank.get(reg2))
         elif opcode == 'SHOW':
             self.highlight_data_travel()
+            self.input_output.process_instruction(f"SHOW {reg1}")
         self.root.update()
         self.cpu.wired_control_unit.update_control_signals_display()
 

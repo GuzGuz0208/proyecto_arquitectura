@@ -62,3 +62,5 @@ class ALU:
 
     def get_psw(self):
         return self.psw
+    
+    
