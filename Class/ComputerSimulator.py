@@ -70,14 +70,14 @@ class ComputerSimulator:
                     instr = parse_assembly_line(line)
                     if instr is None:
                         continue
-                    self.main_memory.memory.store_instruction(idx, instr.raw)
+                    self.main_memory.memory.store_instruction(idx, f"{instr.raw:08X}")
                     self.instructions.append(instr)
                     print(f"[INFO] Instrucción #{idx+1}: {instr}")
                 except Exception as e:
                     print(f"[ERROR] Línea {idx+1}: {e}")
                     break
-        self.main_memory.update_memory_display([i.raw for i in self.instructions])
-        self.memorias.cargar_instruccion([i.raw for i in self.instructions])
+        self.main_memory.update_memory_display([f"{i.raw:08X}" for i in self.instructions])
+        self.memorias.cargar_instruccion([f"{i.raw:08X}" for i in self.instructions])
         self.execute_all_instructions()
 
     def load_single_instructions(self):

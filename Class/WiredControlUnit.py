@@ -48,6 +48,7 @@ class WiredControlUnit:
         return opcode, reg1, reg2
 
     def generate_control_signals(self, opcode):
+
         self.control_signals = {
             'fetch': True,
             'decode': True,
@@ -58,7 +59,8 @@ class WiredControlUnit:
             'register_write': False,
             'alu_operation': None,
         }
-
+        if isinstance(opcode, int):
+            opcode = OPCODE_NAMES.get(opcode, 'UNKNOWN')
         if opcode in ['ADD', 'SUB', 'MUL', 'DIV', 'AND', 'OR', 'NOT', 'XOR']:
             self.control_signals['execute'] = True
             self.control_signals['alu_operation'] = opcode
