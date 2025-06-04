@@ -121,4 +121,3 @@ if __name__ == "__main__":
 
     # Ejecutar el bucle principal
     root.mainloop()
-

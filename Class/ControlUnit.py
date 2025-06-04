@@ -1,33 +1,39 @@
-# Clase ControlUnit (Unidad de Control)
-# Responsabilidades:
-# - Coordina el flujo de instrucciones.
-# - Carga las instrucciones desde la memoria y las decodifica.
+from Class.Instruction import Instruction
+
 class ControlUnit:
     def __init__(self):
-        # El registro de instrucción almacena la instrucción actualmente cargada.
+        """
+        Inicializa el registro de instrucciones (instruction_register).
+        Este registro almacenará la instrucción cargada en el ciclo de Fetch.
+        """
         self.instruction_register = None
 
-    # Método fetch: Carga la instrucción desde la memoria en función del contador de programa (PC).
-    # Parámetros:
-    # - memory: Objeto de memoria desde el cual se carga la instrucción.
-    # - pc: Contador de programa que indica la dirección de memoria de la siguiente instrucción.
-    # - Devuelve la instrucción cargada.
     def fetch(self, memory, pc):
-        instruction = memory.load_instruction(pc)
-        self.instruction_register = instruction
-        return instruction
+        """
+        Carga la instrucción codificada (entero de 32 bits) desde la memoria utilizando el contador de programa (PC),
+        y crea un objeto Instruction con ella. La instrucción se almacena en el registro de instrucción.
+        
+        :param memory: Objeto de memoria con el método load_instruction(direccion).
+        :param pc: Dirección actual del contador de programa (PC).
+        :return: Objeto Instruction cargado.
+        :raises ValueError: Si no se encuentra una instrucción en la dirección especificada.
+        """
+        raw_instr = memory.load_instruction(pc)  # Cargar instrucción desde la memoria usando PC.
+        if raw_instr is None:
+            raise ValueError(f"No instruction found at address {pc}")  # Si no se encuentra instrucción.
+        self.instruction_register = Instruction(raw_instr)  # Crear objeto Instruction.
+        return self.instruction_register
 
-    # Método decode: Decodifica la instrucción actualmente cargada en el registro de instrucción.
-    # Devuelve el opcode, y opcionalmente los operandos.
     def decode(self):
+        """
+        Devuelve los campos decodificados de la instrucción cargada en el registro de instrucción.
+        
+        :return: Tuple(opcode:int, operand1:int, operand2:int, mode:int, extra:int).
+        :raises ValueError: Si no hay ninguna instrucción cargada en el registro.
+        """
         if not self.instruction_register:
-            raise ValueError("No instruction loaded in the instruction register")
-        parts = self.instruction_register.split(maxsplit=1)
-        opcode = parts[0]
-        if len(parts) > 1:
-            operands = parts[1].split(',')
-            reg1 = operands[0].strip()
-            reg2 = operands[1].strip() if len(operands) > 1 else ''
-        else:
-            reg1, reg2 = '', ''
-        return opcode, reg1, reg2
+            raise ValueError("No instruction loaded in the instruction register")  # Verifica que haya una instrucción cargada.
+        
+        # Extraer los valores de la instrucción cargada.
+        instr = self.instruction_register
+        return instr.opcode, instr.operand1, instr.operand2, instr.mode, instr.extra

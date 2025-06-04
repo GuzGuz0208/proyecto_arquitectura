@@ -82,4 +82,3 @@ class InputOutput:
             self.output_widget.delete("1.0", "end")  # Limpiar el contenido del OUTPUT
         self.output_widget.insert("end", message + "\n")  # Agregar el mensaje
         self.output_widget.configure(state="disabled")  # Deshabilitar edición
-
